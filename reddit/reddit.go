@@ -2,21 +2,23 @@ package reddit
 
 import (
 	"encoding/json"
+	"log"
 
 	"github.com/socialnews/reddit-feeder/listing"
 )
 
-func ListLinks(subreddit string) ([]listing.Listing, error) {
+func ListLinks(subreddit string) (*listing.Listing, error) {
 	s, err := getListing(subreddit)
 	if err != nil {
 		return nil, err
 	}
 
-	var p []listing.Listing
-	if err := json.Unmarshal([]byte(s), &p); err != nil {
+	var l listing.Listing
+	if err := json.Unmarshal([]byte(s), &l); err != nil {
+		log.Print(err.Error())
 		return nil, err
 	}
-	return p, nil
+	return &l, nil
 }
 
 var getListing = func(subreddit string) (string, error) {
