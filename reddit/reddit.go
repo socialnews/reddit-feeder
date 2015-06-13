@@ -3,6 +3,7 @@ package reddit
 import (
 	"encoding/json"
 	"log"
+	"net/http"
 
 	"github.com/socialnews/reddit-feeder/listing"
 )
@@ -22,5 +23,5 @@ func ListLinks(subreddit string) (*listing.Listing, error) {
 }
 
 var getListing = func(subreddit string) (string, error) {
-	return "", nil
+	return http.Get("http://reddit.com/r/" + subreddit + ".json"), nil
 }

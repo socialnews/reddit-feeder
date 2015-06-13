@@ -1,6 +1,7 @@
 package reddit
 
 import (
+	"log"
 	. "reflect"
 
 	. "github.com/onsi/ginkgo"
@@ -10,9 +11,7 @@ import (
 var _ = Describe("Reddit", func() {
 
 	Describe("Post lists", func() {
-		Context("Given the subreddit 'newzealand'", func() {
-
-			defer GinkgoRecover()
+		Context("Given test data from the subreddit 'newzealand'", func() {
 
 			// Dependency injection: changing getPosts stubs an API response
 			getListing = func(subreddit string) (string, error) {
@@ -21,11 +20,15 @@ var _ = Describe("Reddit", func() {
 
 			list, err := ListLinks("newzealand")
 			if err != nil {
-				Fail(err.Error())
+				log.Print(err)
 			}
 
 			It("should return a Listing", func() {
 				Expect(list.Kind).To(Equal("Listing"))
+			})
+
+			It("should have an array of Link children", func() {
+				Expect(len(list.Data.Children)).NotTo(Equal(0))
 			})
 		})
 	})
